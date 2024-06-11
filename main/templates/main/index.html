@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+
+{% block 'content' %}
+<div class="col-12 col-md-8 col-lg-6 p-1 m-auto">
+    <h1 class="p-2 text-primary text-center border-bottom">
+        Share Image
+    </h1>
+
+    <div class="col mb-3 p-3">
+
+        <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="file" name="image" class="form-control" required>
+            </div>
+			<div class="mb-3">
+                <textarea name="caption" class="form-control" placeholder="Your caption here" required></textarea>
+            </div>
+			<div class="mb-3">
+                <input type="submit" value="Share This Image" class="btn btn-primary col-12">
+            </div>            
+        </form>
+        
+        {% if messages %}
+            
+            {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+                
+        {% endif %}            
+
+    </div>
+
+    
+    {% for img in images %}
+        <div class="col p-4 mb-3 border rounded-3 shadow">
+            <div class="mb-2">
+                <img class="img-fluid" src="{{ img.image.url }}" alt="{{ img.caption }}">
+            </div>
+            <p>{{ img.caption }}</p>
+        </div>
+    {% endfor %}
+        
+</div>
+
+
+{% endblock 'content' %}
+    
